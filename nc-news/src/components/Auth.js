@@ -11,7 +11,7 @@ class Auth extends Component {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>Enter Username:</label>
-        <input onChange={this.handleChange} value={username} />
+        <input onChange={this.handleChange} value={username} required />
         <button type="submit">Login</button>
       </form>
     );
@@ -22,7 +22,6 @@ class Auth extends Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    console.log("iy");
     const { login } = this.props;
     const { username } = this.state;
     login(username);

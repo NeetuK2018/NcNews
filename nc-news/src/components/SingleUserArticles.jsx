@@ -1,15 +1,18 @@
 import React, { Component } from "react";
-import "../App.css";
 import * as api from "../api.js";
 import { Link } from "@reach/router";
 import SortBy from "./sortBy";
 
-class Articles extends Component {
+class SingleUserArticles extends Component {
   state = {
-    articles: []
+    articles: [],
+    isLoading: true,
+    user: {}
   };
   render() {
-    const { articles } = this.state;
+    const { articles, isLoading } = this.state;
+
+    if (isLoading) return <p>Loading...</p>;
 
     return (
       <div className="main">
@@ -22,29 +25,21 @@ class Articles extends Component {
       </div>
     );
   }
-  componentDidMount() {
-    this.fetchArticles();
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log("updating articles", this.props.topic);
-    if (prevProps.topic !== this.props.topic) this.fetchArticles();
-  }
 
-  fetchArticles = () => {
-    const { topic } = this.props;
+  componentDidMount() {
+    this.fetchUsers();
+  }
+  fetchUsers = () => {
+    const { username } = this.props;
+
     api
-      .getArticles(topic)
+      .getArticlesByUsername(username)
       .then(articles => {
-        this.setState({ articles });
+        this.setState({ articles, isLoading: false });
       })
       .catch(err => {
         console.log(err);
       });
   };
-
-  sortedArticles = articles => {
-    this.setState({ articles });
-  };
 }
-
-export default Articles;
+export default SingleUserArticles;

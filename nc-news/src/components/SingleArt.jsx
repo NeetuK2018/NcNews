@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import * as api from "../api.js";
 import Comments from "./Comments";
+import Voter from "./Voter";
+import Moment from "moment";
 
 class SingleArt extends Component {
   state = {
@@ -9,22 +11,32 @@ class SingleArt extends Component {
   };
   render() {
     const { article, isLoading } = this.state;
+    const { user } = this.props;
     if (isLoading) return <p>Loading...</p>;
     return (
       <div className="main">
         <div>
           <p>
-            {article.title} ID:{article.article_id}
+            {article.title} {article.topic}{" "}
+            {Moment(article.created_at, "YYYY-MM-DD-Thh:mm:ss").fromNow()}
           </p>
           <div>
             {article.body}
             <p>by</p>
-            <p>
-              {article.author} Votes:{article.votes}
-            </p>
+            {article.author === user.username ? (
+              <p>Votes:{article.votes}</p>
+            ) : (
+              <Voter votes={article.votes} article_id={article.article_id} />
+            )}
+
+            <p>Author: {article.author}</p>
           </div>
         </div>
-        <Comments article_id={article.article_id} />
+        <Comments
+          article_id={article.article_id}
+          user={user}
+          comments={article.article_id}
+        />
       </div>
     );
   }

@@ -8,17 +8,20 @@ const Sidebar = ({ user, logout }) => {
       <section className="sideBar">
         <p>Welcome to NC News {user.username}</p>
         <button onClick={logout}> Log out</button>{" "}
+        <ul>
+          <Link to={`/articles`}>
+            <li>All Articles</li>
+          </Link>
+          <Link to={`/users`}>
+            <li>All Users</li>
+          </Link>
+        </ul>
       </section>
     );
 
   return (
     <div>
       <h3>Please Login to View Articles</h3>
-      <ul>
-        <Link to={`/articles`}>
-          <li>All Articles</li>
-        </Link>
-      </ul>
     </div>
   );
 };

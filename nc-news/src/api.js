@@ -20,10 +20,22 @@ export const getArticlesByArticleID = async article_id => {
   const { data } = await axios.get(`${BASE_URL}/articles/${article_id}`);
   return data.article;
 };
-export const fetchUser = async username => {
+export const getUserByUsername = async username => {
   const { data } = await axios.get(`${BASE_URL}/users/${username}`);
 
   return data.user;
+};
+
+export const getArticlesByUsername = async username => {
+  const { data } = await axios.get(`${BASE_URL}/users/${username}/articles`);
+
+  return data.articles;
+};
+
+export const getUsers = async () => {
+  const { data } = await axios.get(`${BASE_URL}/users`);
+
+  return data.users;
 };
 
 export const getCommentsByArticleID = async article_id => {
@@ -33,10 +45,40 @@ export const getCommentsByArticleID = async article_id => {
   return data.comments;
 };
 
-export const VoteOnArticle = async ({ article_id, direction }) => {
-  const { data } = await axios.patch(`/articles/${article_id}`, {
+export const getSortedArticles = async (sort_by, order, limit, p) => {
+  const { data } = await axios.get(
+    `${BASE_URL}/articles?sort_by=${sort_by}&order=${order}&limit=${limit}&p=${p}`
+  );
+  return data.articles;
+};
+
+export const voteOnText = async (article_id, comment_id, direction) => {
+  console.log(article_id, comment_id, direction);
+  const URL = comment_id
+    ? `${BASE_URL}/articles/${article_id}/comments/${comment_id}`
+    : `${BASE_URL}/articles/${article_id}`;
+
+  console.log(URL);
+  const { data } = await axios.patch(URL, {
     inc_votes: direction
   });
   return data.article;
 };
+
+export const addCommentByArticleID = async (body, article_id, userObject) => {
+  const { username } = userObject;
+  const comment = await axios.post(
+    `${BASE_URL}/articles/${article_id}/comments`,
+    { body, username }
+  );
+  return { ...comment, author: comment.username };
+};
+
 // {article_id, comment_id direction}
+
+// export const getUsers = () => {
+//   return axios
+//     .get(`${BASE_URL}/users`)
+//     .then(({ data: { users } }) => users)
+//     .catch(console.log);
+// };

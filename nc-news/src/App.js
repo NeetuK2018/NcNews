@@ -9,6 +9,8 @@ import "./App.css";
 import SingleArt from "./components/SingleArt";
 import * as api from "./api.js";
 import Auth from "./components/Auth";
+import Users from "./components/Users";
+import SingleUserArticles from "./components/SingleUserArticles";
 
 class App extends Component {
   state = {
@@ -26,6 +28,8 @@ class App extends Component {
             <Articles path="/topics/:topic/articles" />
             <Articles path="/articles" />
             <SingleArt path="/articles/:article_id" user={user} />
+            <Users path="/users" />
+            <SingleUserArticles path="/users/:username/articles" />
           </Router>
         </Auth>
         <Sidebar user={user} logout={this.clearUser} />
@@ -35,7 +39,7 @@ class App extends Component {
   }
 
   setUser = username => {
-    api.fetchUser(username).then(user => {
+    api.getUserByUsername(username).then(user => {
       this.setState({ user });
     });
   };
