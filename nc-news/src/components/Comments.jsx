@@ -6,16 +6,13 @@ import Voter from "./Voter";
 
 class Comments extends Component {
   state = {
-    comments: [],
-    isLoading: true,
-    commentDeleted: false
+    comments: []
   };
   render() {
-    const { user, article_id, newComment, commentDeleted } = this.props;
-    const { comments, isLoading } = this.state;
+    const { user, article_id, newComment } = this.props;
+    const { comments } = this.state;
+    console.log(article_id);
 
-    if (isLoading) return <p>Loading...</p>;
-    if (commentDeleted) return null;
     return (
       <div className="main">
         <h2>Comment below:</h2>
@@ -55,28 +52,29 @@ class Comments extends Component {
   }
   fetchComments = () => {
     const { article_id } = this.props;
+    console.log(article_id, "hiya");
     api
       .getCommentsByArticleID(article_id)
       .then(comments => {
         this.setState({ comments, isLoading: false });
       })
       .catch(err => {
-        console.log(err);
+        this.setState({ isLoading: false });
       });
   };
-  handleDelete = comment_id => {
-    const { article_id } = this.props;
+  handleDelete = commentToDelete => {
+    const { article_id, comment_id } = commentToDelete;
+    const currentComms = this.state.comments;
 
-    api.deleteCommentByID({ article_id, comment_id }).then(res => {
+    const restOfComms = currentComms.filter(
+      comment => comment.comment_id !== commentToDelete.comment_id
+    );
+    api.deleteCommentByID(article_id, comment_id).then(data => {
       this.setState(prevState => ({
-        comments: prevState.comments.filter(
-          comment => comment.comment_id !== comment_id
-        )
+        comments: (prevState.comments = restOfComms)
       }));
-      this.setState({ commentDeleted: true });
     });
   };
 }
-
 export default Comments;
 //this.props.navigate('/', {state:{commentDeleted:true}})

@@ -5,6 +5,7 @@
   grid-template-areas: "header header" "nav nav" "articles sidebar" "footer footer";
   font: 15px/1.5 Georgia, serif;
   border-style: groove;
+  cursor: pointer;
 }
 
 .header {
@@ -42,7 +43,6 @@
   grid-area: articles;
   height: 80em;
   overflow-y: scroll;
-  border-style: groove;
 }
 
 /* .App-logo {

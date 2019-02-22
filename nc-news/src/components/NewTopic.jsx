@@ -14,7 +14,7 @@ class NewTopic extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label>Topic Slug:</label>
+          <label>Topic Title:</label>
           <input
             name="slug"
             type="text"

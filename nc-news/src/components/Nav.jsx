@@ -24,10 +24,7 @@ class Nav extends Component {
           </span>
         ))}
 
-        <p>
-          {" "}
-          <AddArticle topics={topics} user={user} />
-        </p>
+        <AddArticle topics={topics} user={user} />
       </div>
     );
   }
