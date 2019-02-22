@@ -32,7 +32,8 @@
 .main {
   background: rgb(245, 246, 247);
   grid-area: articles;
-  overflow-y: auto;
+  height: 25em;
+  overflow-y: scroll;
 }
 
 /* .App-logo {

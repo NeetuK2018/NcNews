@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as api from "../api.js";
+import ArticleNewTopic from "../components/ArticleNewTopic";
 
 class NewTopic extends Component {
   state = {
@@ -31,7 +32,7 @@ class NewTopic extends Component {
           />
           <button type="submit">Submit Topic</button>
         </form>
-        {/* <NewTopicArticle topic={newSlug} user={user} />; */}
+        <ArticleNewTopic topic={newSlug} user={user} />;
       </div>
     );
   }

@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import "../App.css";
 import * as api from "../api.js";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import SortBy from "./sortBy";
+import Error from "./error";
 
 class Articles extends Component {
   state = {
-    articles: []
+    articles: [],
+    errorStatus: null
   };
   render() {
-    const { articles } = this.state;
+    const { articles, errorStatus } = this.state;
+    if (errorStatus !== null) return <Error errorStatus={errorStatus} />;
 
     return (
       <div className="main">
@@ -37,7 +40,7 @@ class Articles extends Component {
         this.setState({ articles });
       })
       .catch(err => {
-        console.log(err);
+        this.setState({ articles: [], errorStatus: err.response.status });
       });
   };
 
