@@ -4,19 +4,22 @@ import Comments from "./Comments";
 import Voter from "./Voter";
 import Moment from "moment";
 // import { navigate } from "@reach/router";
+import Error from "./error";
 
 class SingleArt extends Component {
   state = {
     article: {},
-    isLoading: true,
-    articleDeleted: false
+
+    articleDeleted: false,
+    errorStatus: null
   };
   render() {
-    const { article, isLoading, articleDeleted } = this.state;
+    const { article, articleDeleted, errorStatus } = this.state;
     const { user } = this.props;
 
-    if (isLoading) return <p>Loading...</p>;
+    // if (isLoading) return <p>Loading...</p>;
     if (articleDeleted) return null;
+    if (errorStatus !== null) return <Error errorStatus={errorStatus} />;
     return (
       <div className="main">
         <div>
@@ -56,9 +59,10 @@ class SingleArt extends Component {
         this.setState({ article, isLoading: false });
       })
       .catch(err => {
-        console.log(err);
+        this.setState({ articles: {}, errorStatus: err.response.status });
       });
   };
+
   handleDelete = () => {
     const { article_id } = this.props;
     api

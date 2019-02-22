@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import "../App.css";
 import * as api from "../api.js";
-import { Link, navigate } from "@reach/router";
+import { Link } from "@reach/router";
 import SortBy from "./sortBy";
-import Error from "./error";
 
 class Articles extends Component {
   state = {
-    articles: [],
-    errorStatus: null
+    articles: []
   };
   render() {
-    const { articles, errorStatus } = this.state;
-    if (errorStatus !== null) return <Error errorStatus={errorStatus} />;
+    const { articles } = this.state;
 
     return (
       <div className="main">
@@ -39,9 +36,7 @@ class Articles extends Component {
       .then(articles => {
         this.setState({ articles });
       })
-      .catch(err => {
-        this.setState({ articles: [], errorStatus: err.response.status });
-      });
+      .catch(err => err);
   };
 
   sortedArticles = articles => {

@@ -13,11 +13,11 @@ class Nav extends Component {
   render() {
     const { topics } = this.state;
     const { user } = this.props;
+
     return (
       <div className="nav links">
         <Link to={`/topics/topic/articles`} />
         <p>Topics:</p>
-
         {topics.map(topic => (
           <span key={topic.slug}>
             <Link to={`/topics/${topic.slug}/articles`}>{topic.slug} </Link>
