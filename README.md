@@ -1,2 +1,0 @@
-# NcNews
-FrontEnd of NCKnews
