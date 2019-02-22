@@ -16,6 +16,7 @@ class SingleArt extends Component {
   render() {
     const { article, articleDeleted, errorStatus } = this.state;
     const { user } = this.props;
+    console.log(article, "article");
 
     // if (isLoading) return <p>Loading...</p>;
     if (articleDeleted) return null;
@@ -30,21 +31,18 @@ class SingleArt extends Component {
 
           <p> {article.body}</p>
           <p>by</p>
+          <p>Author: {article.author}</p>
           {article.author === user.username ? (
             <p>Votes:{article.votes}</p>
           ) : (
             <Voter votes={article.votes} article_id={article.article_id} />
           )}
-          <p>Author: {article.author}</p>
+
           {user.username === article.author && (
             <button onClick={this.handleDelete}>Delete Article</button>
           )}
         </div>
-        <Comments
-          article_id={article.article_id}
-          user={user}
-          comments={article.article_id}
-        />
+        <Comments article_id={this.props.article_id} user={user} />
       </div>
     );
   }
@@ -59,7 +57,7 @@ class SingleArt extends Component {
         this.setState({ article, isLoading: false });
       })
       .catch(err => {
-        this.setState({ articles: {}, errorStatus: err.response.status });
+        this.setState({ article: {}, errorStatus: err.response.status });
       });
   };
 
