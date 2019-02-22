@@ -67,6 +67,7 @@ class Comments extends Component {
   };
   handleDelete = comment_id => {
     const { article_id } = this.props;
+    console.log(article_id, comment_id, "<<<<<<");
     api
       .deleteCommentByID({ article_id, comment_id })
       .then(res => this.setState({ commentDeleted: true }));

@@ -62,11 +62,10 @@ class SingleArt extends Component {
   handleDelete = () => {
     const { article_id } = this.props;
     api
-      .removeArticleById({ article_id })
+      .removeArticleById(article_id)
       .then(res => this.setState({ articleDeleted: true }));
   };
 }
-//this.props.navigate('/', {state:{articleDeleted:true}})
 
 // {user.username === author && (
 // <button onClick={this.handleClick}>Delete this article</button>
