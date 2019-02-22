@@ -3,16 +3,20 @@ import * as api from "../api.js";
 import Articles from "./Articles";
 import { navigate } from "@reach/router";
 import NewTopic from "./NewTopic";
+import Error from "./error";
 
 class AddArticle extends Component {
   state = {
     title: "",
     body: "",
-    topic: "coding"
+    topic: "coding",
+    errorStatus: null,
+    
   };
   render() {
-    const { body, title, topic } = this.state;
+    const { body, title, topic, errorStatus } = this.state;
     const { topics, user } = this.props;
+    if (errorStatus !== null) return <Error errorStatus={errorStatus} />;
     return (
       <div className="sidebar">
         {this.state.topic === "add-topic" && <NewTopic user={user} />}
@@ -39,7 +43,7 @@ class AddArticle extends Component {
                   );
                 })}
               <option key="other" value="add-topic">
-                Add a topic
+                Add Topic
               </option>
             </select>
             <br />
@@ -75,11 +79,15 @@ class AddArticle extends Component {
     const { title, body, topic } = this.state;
     const { user } = this.props;
 
-    api.addArticle(title, topic, body, user.username).then(article => {
-      console.log(article);
-      navigate(`/articles/${article.article_id}`);
-    });
-    this.setState({ title: "", topic: "", body: "" });
+    api
+      .addArticle(title, topic, body, user.username)
+      .then(article => {
+        this.setState({ title: "", topic: "", body: "" });
+        navigate(`/articles/${article.article_id}`);
+      })
+      .catch(err => {
+        this.setState({ errorStatus: err.response.status });
+      });
   };
 }
 
