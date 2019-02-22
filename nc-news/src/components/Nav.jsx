@@ -15,9 +15,7 @@ class Nav extends Component {
     const { user } = this.props;
     return (
       <div className="nav links">
-        <Link to={`/topics/topic/articles`}>
-          <p>Post an Article</p>
-        </Link>
+        <Link to={`/topics/topic/articles`} />
         <p>Topics:</p>
 
         {topics.map(topic => (

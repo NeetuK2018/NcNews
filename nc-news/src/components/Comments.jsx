@@ -3,7 +3,6 @@ import * as api from "../api.js";
 import Moment from "moment";
 import AddComment from "./Addcomment";
 import Voter from "./Voter";
-// import { navigate } from "@reach/router";
 
 class Comments extends Component {
   state = {
@@ -67,7 +66,6 @@ class Comments extends Component {
   };
   handleDelete = comment_id => {
     const { article_id } = this.props;
-    const { comments } = this.state;
 
     api.deleteCommentByID({ article_id, comment_id }).then(res => {
       this.setState(prevState => ({

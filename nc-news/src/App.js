@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header />
-        <Nav />
+        <Nav user={user} />
         <Auth user={user} login={this.setUser}>
           <Router className="main">
             <Articles path="/" />

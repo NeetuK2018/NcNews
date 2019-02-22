@@ -13,7 +13,7 @@ class NewTopic extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <label>New topic:</label>
+          <label>Topic Slug:</label>
           <input
             name="slug"
             type="text"
@@ -21,7 +21,7 @@ class NewTopic extends Component {
             onChange={this.handleChange}
             required
           />
-          <label onChange={this.handleChange}>Topic description</label>
+          <label onChange={this.handleChange}>Description</label>
           <input
             name="description"
             type="text"
@@ -29,7 +29,7 @@ class NewTopic extends Component {
             onChange={this.handleChange}
             required
           />
-          <button type="submit">Submit new topic!!!</button>
+          <button type="submit">Submit Topic</button>
         </form>
         {/* <NewTopicArticle topic={newSlug} user={user} />; */}
       </div>
