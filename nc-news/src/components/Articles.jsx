@@ -26,7 +26,6 @@ class Articles extends Component {
     this.fetchArticles();
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log("updating articles", this.props.topic);
     if (prevProps.topic !== this.props.topic) this.fetchArticles();
   }
 

@@ -3,17 +3,20 @@ import * as api from "../api.js";
 import Moment from "moment";
 import AddComment from "./Addcomment";
 import Voter from "./Voter";
+// import { navigate } from "@reach/router";
 
 class Comments extends Component {
   state = {
     comments: [],
-    isLoading: true
+    isLoading: true,
+    commentDeleted: false
   };
   render() {
-    const { user, article_id, newComment } = this.props;
+    const { user, article_id, newComment, commentDeleted } = this.props;
     const { comments, isLoading } = this.state;
-    console.log(this.state);
+
     if (isLoading) return <p>Loading...</p>;
+    if (commentDeleted) return null;
     return (
       <div className="main">
         <h2>Comment below:</h2>
@@ -23,6 +26,7 @@ class Comments extends Component {
               <p>Comment:</p>
               {comment.body}
               <p>by</p>
+              {comment.username}
               {comment.username === user.username ? (
                 <p>Votes:{comment.votes}</p>
               ) : (
@@ -34,6 +38,11 @@ class Comments extends Component {
               )}
               <p>Date added:</p>
               {Moment(comment.created_at, "YYYY-MM-DD-Thh:mm:ss").fromNow()}
+              {user.username === comment.username && (
+                <button onClick={() => this.handleDelete(comment.comment_id)}>
+                  delete
+                </button>
+              )}
             </div>
           </div>
         ))}
@@ -56,6 +65,13 @@ class Comments extends Component {
         console.log(err);
       });
   };
+  handleDelete = comment_id => {
+    const { article_id } = this.props;
+    api
+      .deleteCommentByID({ article_id, comment_id })
+      .then(res => this.setState({ commentDeleted: true }));
+  };
 }
 
 export default Comments;
+//this.props.navigate('/', {state:{commentDeleted:true}})

@@ -3,16 +3,20 @@ import * as api from "../api.js";
 import Comments from "./Comments";
 import Voter from "./Voter";
 import Moment from "moment";
+// import { navigate } from "@reach/router";
 
 class SingleArt extends Component {
   state = {
     article: {},
-    isLoading: true
+    isLoading: true,
+    articleDeleted: false
   };
   render() {
-    const { article, isLoading } = this.state;
+    const { article, isLoading, articleDeleted } = this.state;
     const { user } = this.props;
+
     if (isLoading) return <p>Loading...</p>;
+    if (articleDeleted) return null;
     return (
       <div className="main">
         <div>
@@ -20,17 +24,18 @@ class SingleArt extends Component {
             {article.title} {article.topic}{" "}
             {Moment(article.created_at, "YYYY-MM-DD-Thh:mm:ss").fromNow()}
           </p>
-          <div>
-            {article.body}
-            <p>by</p>
-            {article.author === user.username ? (
-              <p>Votes:{article.votes}</p>
-            ) : (
-              <Voter votes={article.votes} article_id={article.article_id} />
-            )}
 
-            <p>Author: {article.author}</p>
-          </div>
+          <p> {article.body}</p>
+          <p>by</p>
+          {article.author === user.username ? (
+            <p>Votes:{article.votes}</p>
+          ) : (
+            <Voter votes={article.votes} article_id={article.article_id} />
+          )}
+          <p>Author: {article.author}</p>
+          {user.username === article.author && (
+            <button onClick={this.handleDelete}>Delete Article</button>
+          )}
         </div>
         <Comments
           article_id={article.article_id}
@@ -54,6 +59,16 @@ class SingleArt extends Component {
         console.log(err);
       });
   };
+  handleDelete = () => {
+    const { article_id } = this.props;
+    api
+      .removeArticleById({ article_id })
+      .then(res => this.setState({ articleDeleted: true }));
+  };
 }
+//this.props.navigate('/', {state:{articleDeleted:true}})
+
+// {user.username === author && (
+// <button onClick={this.handleClick}>Delete this article</button>
 
 export default SingleArt;

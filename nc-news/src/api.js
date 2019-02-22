@@ -73,6 +73,34 @@ export const addCommentByArticleID = async (body, article_id, userObject) => {
   );
   return { ...comment, author: comment.username };
 };
+export const addArticle = async (title, topic, body, author) => {
+  console.log(title, topic, body, author);
+  const res = await axios.post(`${BASE_URL}/topics/${topic}/articles`, {
+    title,
+    body,
+    author
+  });
+  return res.data.article;
+};
+
+export const addNewTopic = async (slug, description) => {
+  const { data } = await axios.post(`${BASE_URL}/topics/`, {
+    slug,
+    description
+  });
+  return data.topic;
+};
+export const removeArticleById = async article_id => {
+  const data = await axios.delete(`${BASE_URL}/articles/${article_id}`);
+  return data;
+};
+
+export const deleteCommentByID = async ({ comment_id, article_id }) => {
+  const data = await axios.delete(
+    `${BASE_URL}/articles/${article_id}/comments/${comment_id}`
+  );
+  return data;
+};
 
 // {article_id, comment_id direction}
 
